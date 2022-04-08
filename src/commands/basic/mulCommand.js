@@ -1,8 +1,6 @@
-class MultiplyCommand {
-	constructor(value) {
-		this.value = value;
-	}
+import Command from '../Command';
 
+class MultiplyCommand extends Command {
 	execute(currentValue) {
 		console.log(`${currentValue} * ${this.value}`);
 		return currentValue * this.value;

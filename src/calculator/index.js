@@ -13,6 +13,10 @@ class Calculator {
 		const command = this.history.pop();
 		this.value = command.undo(this.value);
 	}
+
+	showValue() {
+		return this.value;
+	}
 }
 
 export default Calculator;

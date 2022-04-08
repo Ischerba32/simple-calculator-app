@@ -1,8 +1,6 @@
-class AddCommand {
-	constructor(value) {
-		this.value = value;
-	}
+import Command from '../Command';
 
+class AddCommand extends Command {
 	execute(currentValue) {
 		console.log(`${currentValue} + ${this.value}`);
 		return currentValue + this.value;
