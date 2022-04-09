@@ -110,3 +110,7 @@ sup {
 .memory-read {
 	grid-area: 1 / 5 / 1 / 7;
 }
+
+.active {
+	border: 2px solid #adadad;
+}

@@ -14,8 +14,12 @@ class Calculator {
 		this.value = command.undo(this.value);
 	}
 
-	showValue() {
+	getValue() {
 		return this.value;
+	}
+
+	setValue(value) {
+		this.value = value;
 	}
 }
 
