@@ -39,6 +39,13 @@ class Receiver {
 	set finish(value) {
 		this.#finish = value;
 	}
+
+	clean() {
+		this.leftOperand = '';
+		this.operator = '';
+		this.rightOperand = '';
+		this.finish = false;
+	}
 }
 
 export default Receiver;

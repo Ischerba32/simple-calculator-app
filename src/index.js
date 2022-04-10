@@ -1,5 +1,6 @@
 import CommandsFactory from './factory/commandsFactory';
 import Calculator from './calculator';
+import Receiver from './receiver/receiver';
 import './styles/styles.css';
 
 const digits = document.querySelectorAll('.digit');
@@ -7,77 +8,66 @@ const operations = document.querySelectorAll('.calc-keys button:not(.digit, .equ
 const equal = document.querySelector('.equal-sign');
 const screen = document.querySelector('.calc-screen .initial');
 console.log(screen);
-let leftOperand = '';
-let operator = '';
-let rightOperand = '';
-let finish = false;
 
 const calculator = new Calculator();
 const factory = new CommandsFactory();
+const receiver = new Receiver();
 
 digits.forEach((digit) => {
 	digit.addEventListener('click', (e) => {
-		if (!operator && !rightOperand && !finish) {
-			leftOperand += e.target.value;
-			calculator.setValue(+leftOperand);
-			screen.value = leftOperand;
-			console.log(leftOperand);
-		} else if (leftOperand && rightOperand && finish) {
-			finish = false;
-			leftOperand = e.target.value;
-			screen.value = leftOperand;
-			rightOperand = '';
-			operator = '';
-			// console.log(rightOperand);
-		} else if (operator && !finish) {
-			rightOperand += e.target.value;
-			screen.value = rightOperand;
-			console.log(rightOperand);
+		if (!receiver.operator && !receiver.rightOperand && !receiver.finish) {
+			receiver.leftOperand += e.target.value;
+			calculator.setValue(+receiver.leftOperand);
+			screen.value = receiver.leftOperand;
+			console.log(receiver.leftOperand);
+		} else if (receiver.leftOperand && receiver.rightOperand && receiver.finish) {
+			receiver.clean();
+			receiver.leftOperand = e.target.value;
+			calculator.setValue(+receiver.leftOperand);
+			screen.value = receiver.leftOperand;
+		} else if (receiver.operator && !receiver.finish) {
+			receiver.rightOperand += e.target.value;
+			screen.value = receiver.rightOperand;
+			console.log(receiver.rightOperand);
 		}
 	});
 });
 
 operations.forEach((operation) => {
 	operation.addEventListener('click', (e) => {
-		if (finish) {
-			finish = false;
-			rightOperand = '';
+		if (receiver.finish) {
+			receiver.finish = false;
+			receiver.rightOperand = '';
 		}
 
 		if (operation.value === 'AC') {
 			calculator.setValue(0);
 			screen.value = calculator.getValue();
-			leftOperand = '';
-			rightOperand = '';
-			operator = '';
-			finish = false;
-
+			receiver.clean();
 			console.log(calculator);
 		} else {
-			operator = operation.value;
-			console.log(operator);
+			receiver.operator = operation.value;
+			console.log(receiver.operator);
 		}
 	});
 });
 
 equal.addEventListener('click', () => {
-	if (!rightOperand) rightOperand = leftOperand;
-	const command = factory.create(operator, +rightOperand);
+	if (!receiver.rightOperand) receiver.rightOperand = receiver.leftOperand;
+	const command = factory.create(receiver.operator, +receiver.rightOperand);
 	console.log(command);
 	try {
 		calculator.executeCommand(command);
-		console.log(`${leftOperand} ${operator} ${rightOperand} = ${calculator.getValue()}`);
-		leftOperand = calculator.getValue();
-		screen.value = leftOperand;
+		console.log(`${receiver.leftOperand} ${receiver.operator} ${receiver.rightOperand} = ${calculator.getValue()}`);
+		receiver.leftOperand = calculator.getValue();
+		screen.value = receiver.leftOperand;
 	} catch (error) {
 		screen.value = error;
-		operator = '';
-		rightOperand = '';
-		leftOperand = '';
+
+		receiver.clean();
 		calculator.setValue(0);
 	}
 
 	console.log(calculator);
-
-	finish = true;
+	receiver.finish = true;
 });
