@@ -17,17 +17,19 @@ const factory = new CommandsFactory();
 
 digits.forEach((digit) => {
 	digit.addEventListener('click', (e) => {
-		if (!operator && !rightOperand) {
+		if (!operator && !rightOperand && !finish) {
 			leftOperand += e.target.value;
 			calculator.setValue(+leftOperand);
 			screen.value = leftOperand;
 			console.log(leftOperand);
 		} else if (leftOperand && rightOperand && finish) {
 			finish = false;
-			rightOperand = e.target.value;
-			screen.value = rightOperand;
-			console.log(rightOperand);
-		} else {
+			leftOperand = e.target.value;
+			screen.value = leftOperand;
+			rightOperand = '';
+			operator = '';
+			// console.log(rightOperand);
+		} else if (operator && !finish) {
 			rightOperand += e.target.value;
 			screen.value = rightOperand;
 			console.log(rightOperand);
@@ -37,9 +39,19 @@ digits.forEach((digit) => {
 
 operations.forEach((operation) => {
 	operation.addEventListener('click', (e) => {
+		if (finish) {
+			finish = false;
+			rightOperand = '';
+		}
+
 		if (operation.value === 'AC') {
 			calculator.setValue(0);
 			screen.value = calculator.getValue();
+			leftOperand = '';
+			rightOperand = '';
+			operator = '';
+			finish = false;
+
 			console.log(calculator);
 		} else {
 			operator = operation.value;
@@ -57,7 +69,6 @@ equal.addEventListener('click', () => {
 		console.log(`${leftOperand} ${operator} ${rightOperand} = ${calculator.getValue()}`);
 		leftOperand = calculator.getValue();
 		screen.value = leftOperand;
-		// rightOperand = '';
 	} catch (error) {
 		screen.value = error;
 		operator = '';
@@ -69,6 +80,4 @@ equal.addEventListener('click', () => {
 	console.log(calculator);
 
 	finish = true;
-	// сделать так чтобы после завершения операции при наборе новой цифры все начиналось заново
-	// при этом если повторно нажать на = то вычисления должны продолжаться
 });
