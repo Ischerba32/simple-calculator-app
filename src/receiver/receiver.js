@@ -1,4 +1,6 @@
-/* eslint-disable no-underscore-dangle */
+import Calculator from '../calculator';
+import CommandsFactory from '../factory/commandsFactory';
+
 class Receiver {
 	#leftOperand = '';
 
@@ -7,6 +9,12 @@ class Receiver {
 	#rightOperand = '';
 
 	#finish = false;
+
+	#factory = new CommandsFactory();
+
+	constructor(calculator) {
+		this.calculator = calculator;
+	}
 
 	get leftOperand() {
 		return this.#leftOperand;
@@ -40,11 +48,51 @@ class Receiver {
 		this.#finish = value;
 	}
 
-	clean() {
+	get factory() {
+		return this.#factory;
+	}
+
+	clearUI() {
 		this.leftOperand = '';
 		this.operator = '';
 		this.rightOperand = '';
 		this.finish = false;
+	}
+
+	clearCalculator() {
+		this.clearUI();
+		this.calculator.setValue(0);
+
+		return this.calculator.getValue();
+	}
+
+	handleLeftOperand(value) {
+		if (this.finish) {
+			this.leftOperand = value;
+		} else {
+			this.leftOperand += value;
+		}
+		this.calculator.setValue(+this.leftOperand);
+	}
+
+	handleRightOperand(value) {
+		this.rightOperand += value;
+	}
+
+	execute() {
+		const command = this.factory.create(this.operator, +this.rightOperand);
+		try {
+			this.calculator.executeCommand(command);
+
+			console.log(`${this.leftOperand} ${this.operator} ${this.rightOperand} = ${this.calculator.getValue()}`);
+
+			this.leftOperand = this.calculator.getValue();
+			this.finish = true;
+			return this.leftOperand;
+		} catch (error) {
+			this.clearCalculator();
+			return error;
+		}
 	}
 }
 
