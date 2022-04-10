@@ -1,11 +1,4 @@
-import AddCommand from './commands/basic/addCommand';
-import SubtractCommand from './commands/basic/subCommand';
-import MultiplyCommand from './commands/basic/mulCommand';
-import DivideCommand from './commands/basic/divCommand';
-import InvertSignCommand from './commands/extends/invertSignCommand';
-import SqrCommand from './commands/pows/sqrCommand';
-import PercentCommand from './commands/extends/percentCommand';
-import FactorialCommand from './commands/extends/factorialCommand';
+import CommandsFactory from './factory/commandsFactory';
 import Calculator from './calculator';
 import './styles/styles.css';
 
@@ -20,6 +13,7 @@ let rightOperand = '';
 let finish = false;
 
 const calculator = new Calculator();
+const factory = new CommandsFactory();
 
 digits.forEach((digit) => {
 	digit.addEventListener('click', (e) => {
@@ -43,78 +37,38 @@ digits.forEach((digit) => {
 
 operations.forEach((operation) => {
 	operation.addEventListener('click', (e) => {
-		operator = operation.value;
-		console.log(operator);
+		if (operation.value === 'AC') {
+			calculator.setValue(0);
+			screen.value = calculator.getValue();
+			console.log(calculator);
+		} else {
+			operator = operation.value;
+			console.log(operator);
+		}
 	});
 });
 
 equal.addEventListener('click', () => {
 	if (!rightOperand) rightOperand = leftOperand;
-	switch (operator) {
-	case '+':
-		calculator.executeCommand(new AddCommand(+(rightOperand)));
+	const command = factory.create(operator, +rightOperand);
+	console.log(command);
+	try {
+		calculator.executeCommand(command);
 		console.log(`${leftOperand} ${operator} ${rightOperand} = ${calculator.getValue()}`);
 		leftOperand = calculator.getValue();
 		screen.value = leftOperand;
-		break;
-	case '-':
-		calculator.executeCommand(new SubtractCommand(+(rightOperand)));
-		console.log(`${leftOperand} ${operator} ${rightOperand} = ${calculator.getValue()}`);
-		leftOperand = calculator.getValue();
-		screen.value = leftOperand;
-		break;
-	case '*':
-		calculator.executeCommand(new MultiplyCommand(+(rightOperand)));
-		console.log(`${leftOperand} ${operator} ${rightOperand} = ${calculator.getValue()}`);
-		leftOperand = calculator.getValue();
-		screen.value = leftOperand;
-		break;
-	case '/':
-		if (rightOperand === '0') {
-			screen.value = 'Error';
-			operator = '';
-			rightOperand = '';
-			leftOperand = '';
-			calculator.setValue(0);
-		} else {
-			calculator.executeCommand(new DivideCommand(+(rightOperand)));
-			console.log(`${leftOperand} ${operator} ${rightOperand} = ${calculator.getValue()}`);
-			leftOperand = calculator.getValue();
-			screen.value = leftOperand;
-		}
-		break;
-	default:
-		break;
+		// rightOperand = '';
+	} catch (error) {
+		screen.value = error;
+		operator = '';
+		rightOperand = '';
+		leftOperand = '';
+		calculator.setValue(0);
 	}
+
+	console.log(calculator);
+
 	finish = true;
 	// сделать так чтобы после завершения операции при наборе новой цифры все начиналось заново
 	// при этом если повторно нажать на = то вычисления должны продолжаться
 });
-
-// Testing commands
-// calculator.executeCommand(new AddCommand(10));
-// console.log(calculator.value);
-
-// calculator.executeCommand(new FactorialCommand());
-// console.log(calculator.value);
-
-// calculator.executeCommand(new MultiplyCommand(2));
-// console.log(calculator.value);
-
-// calculator.executeCommand(new AddCommand(-40));
-// console.log(calculator.value);
-
-// calculator.executeCommand(new InvertSignCommand());
-// console.log(calculator.value);
-
-// calculator.executeCommand(new SqrCommand());
-// console.log(calculator.value);
-
-// calculator.executeCommand(new AddCommand(-300));
-// console.log(calculator.value);
-
-// calculator.executeCommand(new PercentCommand());
-// console.log(calculator.value);
-
-// console.log(calculator);
-// console.log(calculator.showValue());
