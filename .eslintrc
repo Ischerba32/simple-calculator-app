@@ -16,6 +16,7 @@
     "no-tabs": "off",
     "prefer-destructuring": "off",
     "indent": [2, "tab", {}],
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "no-useless-return": "warn"
   }
 }
