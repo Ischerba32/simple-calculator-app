@@ -22,6 +22,9 @@ digits.forEach((digit) => {
 			} else if (digit.value === '.' && receiver.leftOperand.includes('.')) {
 
 			} else {
+				if (!receiver.leftOperand && digit.value === '.') {
+					receiver.handleLeftOperand(0);
+				}
 				receiver.handleLeftOperand(digit.value);
 				screen.value = receiver.leftOperand;
 				console.log(receiver.leftOperand);
@@ -39,6 +42,9 @@ digits.forEach((digit) => {
 			} else if (digit.value === '.' && receiver.rightOperand.includes('.')) {
 
 			} else {
+				if (!receiver.rightOperand && digit.value === '.') {
+					receiver.handleRightOperand(0);
+				}
 				receiver.handleRightOperand(digit.value);
 				screen.value = receiver.rightOperand;
 
@@ -50,28 +56,38 @@ digits.forEach((digit) => {
 
 operations.forEach((operation) => {
 	operation.addEventListener('click', (e) => {
-		if (receiver.finish) {
-			receiver.finish = false;
-			receiver.rightOperand = '';
-		}
+		if (operation.classList.contains('extend-operator')) {
+			console.log(`Extend ${operation.value}`);
+			receiver.operator = operation.value;
+			screen.value = receiver.execute();
 
-		if (operation.value === 'AC') {
-			screen.value = receiver.clearCalculator();
 			console.log(calculator);
 		} else {
-			receiver.operator = operation.value;
-			console.log(receiver.operator);
+			if (receiver.finish) {
+				receiver.finish = false;
+				receiver.rightOperand = '';
+			}
+
+			if (operation.value === 'AC') {
+				screen.value = receiver.clearCalculator();
+				console.log(calculator);
+			} else {
+				receiver.operator = operation.value;
+				console.log(receiver.operator);
+			}
 		}
 	});
 });
 
 equal.addEventListener('click', () => {
-	if (!receiver.rightOperand) receiver.rightOperand = receiver.leftOperand;
-	screen.value = receiver.execute();
-
+	if (!receiver.operator && !receiver.rightOperand) {
+		screen.value = receiver.leftOperand || screen.value;
+	} else {
+		if (!receiver.rightOperand) receiver.rightOperand = receiver.leftOperand;
+		screen.value = receiver.execute();
+	}
 	console.log(calculator);
 });
 
-// TODO: commands like "left operand - operator"
 // TODO: calculator memory implementation
 // TODO: execute when clicked operand after executing operation
