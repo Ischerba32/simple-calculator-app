@@ -56,22 +56,31 @@ digits.forEach((digit) => {
 
 operations.forEach((operation) => {
 	operation.addEventListener('click', (e) => {
+		// clicked basic or extended operation ?
 		if (operation.classList.contains('extend-operator')) {
 			console.log(`Extend ${operation.value}`);
 			receiver.operator = operation.value;
 			screen.value = receiver.execute();
 
 			console.log(calculator);
-		} else {
+		} else { // clicked basic operation
+			// clicked after equal?
 			if (receiver.finish) {
 				receiver.finish = false;
 				receiver.rightOperand = '';
 			}
-
+			// clicked AC operation?
 			if (operation.value === 'AC') {
 				screen.value = receiver.clearCalculator();
 				console.log(calculator);
-			} else {
+			} else { // clicked basic operation
+				// clicked operator when left operator right was entered
+				if (receiver.leftOperand && receiver.operator && receiver.rightOperand) {
+					screen.value = receiver.execute();
+					receiver.operator = operation.value;
+					receiver.finish = false;
+					receiver.rightOperand = '';
+				}
 				receiver.operator = operation.value;
 				console.log(receiver.operator);
 			}
@@ -90,4 +99,3 @@ equal.addEventListener('click', () => {
 });
 
 // TODO: calculator memory implementation
-// TODO: execute when clicked operand after executing operation
