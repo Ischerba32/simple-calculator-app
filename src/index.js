@@ -4,7 +4,9 @@ import Receiver from './receiver/receiver';
 import './styles/styles.css';
 
 const digits = document.querySelectorAll('.digit, .decimal');
-const operations = document.querySelectorAll('.calc-keys button:not(.digit, .equal-sign, .decimal)');
+const operations = document.querySelectorAll('.calc-keys button:not(.digit, .equal-sign, .decimal, .memory)');
+const memoryBtns = document.querySelectorAll('.memory');
+console.log(memoryBtns);
 const equal = document.querySelector('.equal-sign');
 const screen = document.querySelector('.calc-screen .initial');
 
@@ -22,6 +24,7 @@ digits.forEach((digit) => {
 			} else if (digit.value === '.' && receiver.leftOperand.includes('.')) {
 
 			} else {
+				// handle left operator
 				if (!receiver.leftOperand && digit.value === '.') {
 					receiver.handleLeftOperand(0);
 				}
@@ -29,9 +32,9 @@ digits.forEach((digit) => {
 				screen.value = receiver.leftOperand;
 				console.log(receiver.leftOperand);
 			}
-		} else if (receiver.leftOperand && receiver.rightOperand && receiver.finish) {
+			// old receiver.leftOperand && receiver.rightOperand && receiver.finigh
+		} else if (receiver.finish) {
 			receiver.clearUI();
-
 			receiver.handleLeftOperand(digit.value);
 			screen.value = receiver.leftOperand;
 		} else if (receiver.operator && !receiver.finish) {
@@ -42,6 +45,7 @@ digits.forEach((digit) => {
 			} else if (digit.value === '.' && receiver.rightOperand.includes('.')) {
 
 			} else {
+				// handle right operator
 				if (!receiver.rightOperand && digit.value === '.') {
 					receiver.handleRightOperand(0);
 				}
@@ -91,11 +95,38 @@ operations.forEach((operation) => {
 equal.addEventListener('click', () => {
 	if (!receiver.operator && !receiver.rightOperand) {
 		screen.value = receiver.leftOperand || screen.value;
+		receiver.finish = true;
 	} else {
 		if (!receiver.rightOperand) receiver.rightOperand = receiver.leftOperand;
 		screen.value = receiver.execute();
 	}
 	console.log(calculator);
+});
+
+memoryBtns.forEach((memoryBtn) => {
+	memoryBtn.addEventListener('click', () => {
+		if (memoryBtn.value === 'M+' || memoryBtn.value === 'M-') {
+			receiver.handleMemory(memoryBtn.value, screen.value);
+		} else if (memoryBtn.value === 'MR') {
+			// check in which operator return memory value
+			// TODO:
+			// после написания закинуть все в receiver
+			// дописать правильную обработку finish типо когда прочитал данные
+			// из памяти чтобы после ввода числа оно перезаписывала
+			// текущий операнд а не обнулялась и переписывала левый
+			if (!receiver.operator) {
+				receiver.handleLeftOperand(receiver.handleMemory(memoryBtn.value));
+				// receiver.leftOperand = receiver.handleMemory(memoryBtn.value);
+				screen.value = receiver.leftOperand;
+			} else if (!receiver.rightOperand) {
+				receiver.handleRightOperand(receiver.handleMemory(memoryBtn.value));
+				screen.value = receiver.rightOperand;
+			}
+		} else {
+			receiver.handleMemory(memoryBtn.value);
+		}
+		console.log(calculator);
+	});
 });
 
 // TODO: calculator memory implementation

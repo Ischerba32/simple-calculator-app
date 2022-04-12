@@ -79,6 +79,14 @@ class Receiver {
 		this.rightOperand += value;
 	}
 
+	handleMemory(operation, value = '') {
+		const command = this.factory.create(operation, +value);
+		console.log(command);
+		this.calculator.executeMemoryCommand(command);
+		// this.finish = true;
+		return this.calculator.memory;
+	}
+
 	execute() {
 		const command = this.factory.create(this.operator, +this.rightOperand);
 		try {

@@ -14,6 +14,11 @@ import FactorialCommand from '../commands/extends/factorialCommand';
 import SquareRootCommand from '../commands/roots/squareRootCommand';
 import CubeRootCommand from '../commands/roots/cubeRootCommand';
 
+import MemoryPlusCommand from '../commands/memory/memoryPlusCommand';
+import MemoryMinusCommand from '../commands/memory/memoryMinusCommand';
+import MemoryReadCommand from '../commands/memory/memoryReadCommand';
+import MemoryClearCommand from '../commands/memory/memoryClearCommand';
+
 const commandsList = {
 	'+': AddCommand,
 	'-': SubtractCommand,
@@ -30,6 +35,10 @@ const commandsList = {
 	'x!': FactorialCommand,
 	'sqrt(x)': SquareRootCommand,
 	'cbrt(x)': CubeRootCommand,
+	'M+': MemoryPlusCommand,
+	'M-': MemoryMinusCommand,
+	MR: MemoryReadCommand,
+	MC: MemoryClearCommand,
 };
 
 export default commandsList;

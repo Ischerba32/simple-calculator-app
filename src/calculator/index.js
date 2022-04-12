@@ -2,6 +2,27 @@ class Calculator {
 	constructor() {
 		this.value = 0;
 		this.history = [];
+		this.memory = 0;
+	}
+
+	plusMemory(operand) {
+		this.memory += operand;
+	}
+
+	minusMemory(operand) {
+		this.memory -= operand;
+	}
+
+	readMemory() {
+		return this.memory;
+	}
+
+	clearMemory() {
+		this.memory = 0;
+	}
+
+	executeMemoryCommand(command) {
+		this.memory = command.execute(this.memory);
 	}
 
 	executeCommand(command) {
