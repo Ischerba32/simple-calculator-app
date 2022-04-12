@@ -65,7 +65,6 @@ operations.forEach((operation) => {
 			console.log(`Extend ${operation.value}`);
 			receiver.operator = operation.value;
 			screen.value = receiver.execute();
-
 			console.log(calculator);
 		} else { // clicked basic operation
 			// clicked after equal?
@@ -105,23 +104,12 @@ equal.addEventListener('click', () => {
 
 memoryBtns.forEach((memoryBtn) => {
 	memoryBtn.addEventListener('click', () => {
+		const valueToMemory = screen.value;
 		if (memoryBtn.value === 'M+' || memoryBtn.value === 'M-') {
-			receiver.handleMemory(memoryBtn.value, screen.value);
+			receiver.handleMemory(memoryBtn.value, valueToMemory);
 		} else if (memoryBtn.value === 'MR') {
 			// check in which operator return memory value
-			// TODO:
-			// после написания закинуть все в receiver
-			// дописать правильную обработку finish типо когда прочитал данные
-			// из памяти чтобы после ввода числа оно перезаписывала
-			// текущий операнд а не обнулялась и переписывала левый
-			if (!receiver.operator) {
-				receiver.handleLeftOperand(receiver.handleMemory(memoryBtn.value));
-				// receiver.leftOperand = receiver.handleMemory(memoryBtn.value);
-				screen.value = receiver.leftOperand;
-			} else if (!receiver.rightOperand) {
-				receiver.handleRightOperand(receiver.handleMemory(memoryBtn.value));
-				screen.value = receiver.rightOperand;
-			}
+			screen.value = receiver.handleMemoryRead(memoryBtn.value);
 		} else {
 			receiver.handleMemory(memoryBtn.value);
 		}

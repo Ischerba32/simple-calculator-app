@@ -87,15 +87,26 @@ class Receiver {
 		return this.calculator.memory;
 	}
 
+	// eslint-disable-next-line consistent-return
+	handleMemoryRead(btnValue) {
+		if (!this.operator) {
+			this.handleLeftOperand(this.handleMemory(btnValue));
+			return this.leftOperand;
+		}
+		if (!this.rightOperand) {
+			this.handleRightOperand(this.handleMemory(btnValue));
+			return this.rightOperand;
+		}
+	}
+
 	execute() {
 		const command = this.factory.create(this.operator, +this.rightOperand);
 		try {
 			this.calculator.executeCommand(command);
 
 			console.log(`${this.leftOperand} ${this.operator} ${this.rightOperand} = ${this.calculator.getValue()}`);
-
-			this.leftOperand = this.calculator.getValue();
 			this.finish = true;
+			this.leftOperand = this.calculator.getValue();
 			return this.leftOperand;
 		} catch (error) {
 			this.clearCalculator();
