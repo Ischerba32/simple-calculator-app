@@ -86,7 +86,6 @@ class Receiver {
 
 	handleMemory(operation, value = '') {
 		const command = this.factory.create(operation, +value);
-		console.log(command);
 		this.calculator.executeMemoryCommand(command);
 		return this.calculator.memory;
 	}
@@ -95,11 +94,11 @@ class Receiver {
 	handleMemoryRead(btnValue) {
 		if (!this.operator) {
 			this.finish = true;
-			this.handleLeftOperand(this.handleMemory(btnValue));
+			this.handleLeftOperand(this.handleMemory(btnValue).toString());
 			return this.leftOperand;
 		}
 		if (!this.rightOperand) {
-			this.rightOperand = this.handleMemory(btnValue);
+			this.rightOperand = this.handleMemory(btnValue).toString();
 			return this.rightOperand;
 		}
 	}
@@ -111,7 +110,7 @@ class Receiver {
 
 			// console.log(`${this.leftOperand} ${this.operator} ${this.rightOperand} = ${this.calculator.getValue()}`);
 			this.finish = true;
-			this.leftOperand = this.calculator.getValue();
+			this.leftOperand = this.calculator.getValue().toString();
 			return this.leftOperand;
 		} catch (error) {
 			this.clearCalculator();
