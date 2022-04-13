@@ -10,7 +10,7 @@ To get started, just clone the repository, install packages and run dev server:
     npm install
     npm run dev
 
-### How to build:
+## How to build:
 
 If you wanted to build this app, you should run next one script:
 
