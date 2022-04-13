@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
-import Calculator from '../../../calculator/index';
 import Receiver from '../../../receiver/receiver';
 
-const receiver = new Receiver(new Calculator());
+const receiver = new Receiver();
 const left = '16';
 const right = '4';
 

@@ -12,9 +12,7 @@ class Receiver {
 
 	#factory = new CommandsFactory();
 
-	constructor(calculator) {
-		this.calculator = calculator;
-	}
+	#calculator = new Calculator();
 
 	get leftOperand() {
 		return this.#leftOperand;
@@ -52,6 +50,14 @@ class Receiver {
 		return this.#factory;
 	}
 
+	get calculator() {
+		return this.#calculator;
+	}
+
+	set calculator(calc) {
+		this.#calculator = calc;
+	}
+
 	clearUI() {
 		this.leftOperand = '';
 		this.operator = '';
@@ -62,7 +68,6 @@ class Receiver {
 	clearCalculator() {
 		this.clearUI();
 		this.calculator.setValue(0);
-
 		return this.calculator.getValue();
 	}
 
@@ -83,18 +88,18 @@ class Receiver {
 		const command = this.factory.create(operation, +value);
 		console.log(command);
 		this.calculator.executeMemoryCommand(command);
-		// this.finish = true;
 		return this.calculator.memory;
 	}
 
 	// eslint-disable-next-line consistent-return
 	handleMemoryRead(btnValue) {
 		if (!this.operator) {
+			this.finish = true;
 			this.handleLeftOperand(this.handleMemory(btnValue));
 			return this.leftOperand;
 		}
 		if (!this.rightOperand) {
-			this.handleRightOperand(this.handleMemory(btnValue));
+			this.rightOperand = this.handleMemory(btnValue);
 			return this.rightOperand;
 		}
 	}
@@ -104,7 +109,7 @@ class Receiver {
 		try {
 			this.calculator.executeCommand(command);
 
-			console.log(`${this.leftOperand} ${this.operator} ${this.rightOperand} = ${this.calculator.getValue()}`);
+			// console.log(`${this.leftOperand} ${this.operator} ${this.rightOperand} = ${this.calculator.getValue()}`);
 			this.finish = true;
 			this.leftOperand = this.calculator.getValue();
 			return this.leftOperand;

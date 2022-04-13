@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
-import Calculator from '../../../calculator/index';
 import Receiver from '../../../receiver/receiver';
 
-const receiver = new Receiver(new Calculator());
+const receiver = new Receiver();
 const left = '5';
 const right = '10';
 
@@ -16,19 +15,19 @@ describe('basic calculator commands', () => {
 	});
 	it('check add command', () => {
 		receiver.operator = '+';
-		expect(receiver.execute()).toBe(15);
+		expect(receiver.execute()).toBe(+left + (+right));
 	});
 	it('check sub command', () => {
 		receiver.operator = '-';
-		expect(receiver.execute()).toBe(-5);
+		expect(receiver.execute()).toBe(+left - (+right));
 	});
 	it('check multiply command', () => {
 		receiver.operator = '*';
-		expect(receiver.execute()).toBe(50);
+		expect(receiver.execute()).toBe(+left * (+right));
 	});
 	it('check divide command', () => {
 		receiver.operator = '/';
-		expect(receiver.execute()).toBe(0.5);
+		expect(receiver.execute()).toBe(+left / (+right));
 	});
 	it('check divide by 0', () => {
 		receiver.operator = '/';

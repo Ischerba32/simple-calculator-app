@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
-import Calculator from '../../../calculator/index';
 import Receiver from '../../../receiver/receiver';
 
-const receiver = new Receiver(new Calculator());
+const receiver = new Receiver();
 const left = '5';
 
 describe('Extended calculator commands', () => {
@@ -38,6 +37,6 @@ describe('Extended calculator commands', () => {
 	});
 	it('% command', () => {
 		receiver.operator = '%';
-		expect(receiver.execute()).toBe(0.05);
+		expect(receiver.execute()).toBe(+left / 100);
 	});
 });

@@ -1,5 +1,4 @@
 /* eslint-disable no-empty */
-import Calculator from './calculator';
 import Receiver from './receiver/receiver';
 import './styles/styles.css';
 
@@ -10,8 +9,7 @@ console.log(memoryBtns);
 const equal = document.querySelector('.equal-sign');
 const screen = document.querySelector('.calc-screen .initial');
 
-const calculator = new Calculator();
-const receiver = new Receiver(calculator);
+const receiver = new Receiver();
 
 digits.forEach((digit) => {
 	digit.addEventListener('click', (e) => {
@@ -65,7 +63,6 @@ operations.forEach((operation) => {
 			console.log(`Extend ${operation.value}`);
 			receiver.operator = operation.value;
 			screen.value = receiver.execute();
-			console.log(calculator);
 		} else { // clicked basic operation
 			// clicked after equal?
 			if (receiver.finish) {
@@ -75,7 +72,7 @@ operations.forEach((operation) => {
 			// clicked AC operation?
 			if (operation.value === 'AC') {
 				screen.value = receiver.clearCalculator();
-				console.log(calculator);
+				// console.log(calculator);
 			} else { // clicked basic operation
 				// clicked operator when left operator right was entered
 				if (receiver.leftOperand && receiver.operator && receiver.rightOperand) {
@@ -99,7 +96,6 @@ equal.addEventListener('click', () => {
 		if (!receiver.rightOperand) receiver.rightOperand = receiver.leftOperand;
 		screen.value = receiver.execute();
 	}
-	console.log(calculator);
 });
 
 memoryBtns.forEach((memoryBtn) => {
@@ -113,8 +109,5 @@ memoryBtns.forEach((memoryBtn) => {
 		} else {
 			receiver.handleMemory(memoryBtn.value);
 		}
-		console.log(calculator);
 	});
 });
-
-// TODO: calculator memory implementation
