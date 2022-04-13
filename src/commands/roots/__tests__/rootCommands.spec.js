@@ -15,14 +15,14 @@ describe('roots calculator commands', () => {
 	});
 	it('square root command', () => {
 		receiver.operator = 'sqrt(x)';
-		expect(receiver.execute()).toBe((+left) ** 0.5);
+		expect(receiver.execute()).toBe(`${(+left) ** 0.5}`);
 	});
 	it('cube root command', () => {
 		receiver.operator = 'cbrt(x)';
-		expect(receiver.execute()).toBe((+left) ** (1 / 3));
+		expect(receiver.execute()).toBe(`${(+left) ** (1 / 3)}`);
 	});
 	it('y root command', () => {
 		receiver.operator = 'yRoot(x)';
-		expect(receiver.execute()).toBe((+left) ** (1 / (+right)));
+		expect(receiver.execute()).toBe(`${(+left) ** (1 / (+right))}`);
 	});
 });

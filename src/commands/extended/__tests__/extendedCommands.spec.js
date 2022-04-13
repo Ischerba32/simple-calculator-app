@@ -13,21 +13,21 @@ describe('Extended calculator commands', () => {
 	});
 	it('factorial command', () => {
 		receiver.operator = 'x!';
-		expect(receiver.execute()).toBe(120);
+		expect(receiver.execute()).toBe('120');
 	});
 	it('invert sign command (to negative)', () => {
 		receiver.operator = '+-';
-		expect(receiver.execute()).toBe(-(+left));
+		expect(receiver.execute()).toBe(`-${left}`);
 	});
 	it('invert sign command (to positive)', () => {
 		receiver.operator = '+-';
 		receiver.leftOperand = `-${left}`;
 		receiver.calculator.setValue(+receiver.leftOperand);
-		expect(receiver.execute()).toBe(+left);
+		expect(receiver.execute()).toBe(left);
 	});
 	it('1/x command', () => {
 		receiver.operator = '1/x';
-		expect(receiver.execute()).toBe(1 / (+left));
+		expect(receiver.execute()).toBe(`${1 / (+left)}`);
 	});
 	it('1/x command (divide by 0)', () => {
 		receiver.operator = '1/x';
@@ -37,6 +37,6 @@ describe('Extended calculator commands', () => {
 	});
 	it('% command', () => {
 		receiver.operator = '%';
-		expect(receiver.execute()).toBe(+left / 100);
+		expect(receiver.execute()).toBe(`${+left / 100}`);
 	});
 });

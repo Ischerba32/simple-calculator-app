@@ -15,19 +15,19 @@ describe('basic calculator commands', () => {
 	});
 	it('check add command', () => {
 		receiver.operator = '+';
-		expect(receiver.execute()).toBe(+left + (+right));
+		expect(receiver.execute()).toBe(`${+left + +right}`);
 	});
 	it('check sub command', () => {
 		receiver.operator = '-';
-		expect(receiver.execute()).toBe(+left - (+right));
+		expect(receiver.execute()).toBe(`${+left - +right}`);
 	});
 	it('check multiply command', () => {
 		receiver.operator = '*';
-		expect(receiver.execute()).toBe(+left * (+right));
+		expect(receiver.execute()).toBe(`${+left * +right}`);
 	});
 	it('check divide command', () => {
 		receiver.operator = '/';
-		expect(receiver.execute()).toBe(+left / (+right));
+		expect(receiver.execute()).toBe(`${+left / (+right)}`);
 	});
 	it('check divide by 0', () => {
 		receiver.operator = '/';

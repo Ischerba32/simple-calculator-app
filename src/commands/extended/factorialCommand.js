@@ -3,7 +3,6 @@ import Command from '../Command';
 
 class FactorialCommand extends Command {
 	execute(currentValue) {
-		console.log(`${currentValue}!`);
 		return this.factorial(currentValue);
 	}
 

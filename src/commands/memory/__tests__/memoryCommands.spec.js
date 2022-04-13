@@ -32,11 +32,11 @@ describe('memory commands', () => {
 	it('memory read command if memory is empty', () => {
 		receiver.clearCalculator();
 		const memoryOperation = 'MR';
-		expect(receiver.handleMemoryRead(memoryOperation)).toBe(0);
+		expect(receiver.handleMemoryRead(memoryOperation)).toBe('0');
 	});
 	it('memory read command if memory is not empty', () => {
 		receiver.clearCalculator();
 		const memoryOperation = 'MR';
-		expect(receiver.handleMemoryRead(memoryOperation)).toBe(receiver.calculator.memory);
+		expect(receiver.handleMemoryRead(memoryOperation)).toBe(receiver.calculator.memory.toString());
 	});
 });

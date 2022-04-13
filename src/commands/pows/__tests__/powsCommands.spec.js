@@ -15,18 +15,18 @@ describe('pows calculator commands', () => {
 	});
 	it('square pow command', () => {
 		receiver.operator = 'x^2';
-		expect(receiver.execute()).toBe((+left) ** 2);
+		expect(receiver.execute()).toBe(`${(+left) ** 2}`);
 	});
 	it('cube pow command', () => {
 		receiver.operator = 'x^3';
-		expect(receiver.execute()).toBe((+left) ** 3);
+		expect(receiver.execute()).toBe(`${(+left) ** 3}`);
 	});
 	it('ten pow x command', () => {
 		receiver.operator = '10^x';
-		expect(receiver.execute()).toBe(10 ** (+left));
+		expect(receiver.execute()).toBe(`${10 ** (+left)}`);
 	});
 	it('x pow y command', () => {
 		receiver.operator = 'x^y';
-		expect(receiver.execute()).toBe((+left) ** (+right));
+		expect(receiver.execute()).toBe(`${(+left) ** (+right)}`);
 	});
 });
