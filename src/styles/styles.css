@@ -1,8 +1,61 @@
+:root {
+	--background: #333;
+	--calc-shadow: #343030d4;
+	--calc-background: #1c1b1b;
+	--calc-color: #fff;
+	--button-background: #36363696;
+	--button-shadow-outset: #262626;
+	--button-shadow-inset: #464646;
+	--button-active: #363636e8;
+	--hover-gradient-start: #313131;
+	--hover-gradient-end: #3a3a3a;
+	--button-outline: #adadad;
+	--operator-background: #ffa000;
+	--operator-shadow-outset: #b57200;
+	--operator-shadow-inset: #ffce00;
+	--operator-hover: #f7a824;
+	--keys-background: #34303033;
+	--operator-ext-background: #5c5858e8;
+	--operator-ext-hover: #6c6969e8;
+	--operator-ext-active: #413f3fe8;
+	--toggle-shadow-inset1: #181717;
+	--toggle-shadow-inset2: #201f1f;
+}
+
+:root[data-theme="light"] {
+	--background: #fff;
+	--calc-shadow: #bebebe;
+	--calc-background: #e3e4e4;
+	--calc-color: #000000c2;
+	--button-background: #c9c9c996;
+	--button-shadow-outset: #ababab;
+	--button-shadow-inset: #e7e7e7;
+	--button-active: #363636e8;
+	--hover-gradient-start: #b5b5b5;
+	--hover-gradient-end: #d7d7d7;
+	--button-outline: #525252;
+	--operator-background: #ffa000;
+	--operator-shadow-outset: #b57200;
+	--operator-shadow-inset: #ffce00;
+	--operator-hover: #f7a824;
+	--keys-background: #34303033;
+	--operator-ext-background: #a3a7a7e8;
+	--operator-ext-hover: #afb1b1e8;
+	--operator-ext-active: #bec0c0e8;
+		--toggle-shadow-inset1: #c1c2c2;
+	--toggle-shadow-inset2: #ffffffce;
+}
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+	background-color: var(--background);
+	transition: 0.5s;
 }
 
 .container {
@@ -12,32 +65,80 @@
 }
 
 .calc {
-	box-shadow: 0px 0px 8px 4px #343030d4;
+	box-shadow: 0px 0px 8px 4px var(--calc-shadow);
 	border-radius: 30px;
 	margin: 20px 0;
 	width: 40%;
-	background-color: #1c1b1b;
+	background-color: var(--calc-background);
+}
+
+.toggle {
+	display: flex;
+	justify-content: center;
+}
+
+.toggle input[type=checkbox] {
+	display: none;
+}
+
+.toggle label {
+	background-color: var(--calc-background);
+	border-radius: 50px;
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: all ease-in-out 0.3s;
+	width: 50px;
+	height: 25px;
+	box-shadow: inset 9px 10px 9px 0px var(--toggle-shadow-inset1),
+							inset -10px -9px 4px var(--toggle-shadow-inset2);
+}
+
+.toggle label::after {
+	background-color: var(--operator-ext-background);
+	border-radius: 50%;
+	content: ' ';
+	cursor: pointer;
+	display: inline-block;
+	position: absolute;
+	left: 3px;
+	top: 2.5px;
+	transition: all ease-in-out 0.3s;
+	width: 20px;
+	height: 20px;
+	box-shadow: 1px 1px 2px var(--button-shadow-outset),
+							0px -1px 2px var(--button-shadow-inset);
+}
+
+.toggle input[type=checkbox]:checked ~ label {
+	background-color: var(--calc-background);
+}
+
+.toggle input[type=checkbox]:checked ~ label::after {
+	background-color: var(--operator-ext-background);
+	transform: translateX(24px);
 }
 
 .calc-screen {
-	padding: 45px 25px 25px;
+	padding: 25px;
 }
 
 .memory-value {
-	color: #ffa000;
+	color: var(--operator-background);
+	font-weight: 600;
 }
 
 .memory-value span {
-	color: #fff;
+	color: var(--calc-color);
 }
 
-.calc-screen input {
+.calc-screen input[type=text] {
 	width: 100%;
 	font-size: 55px;
 	height: 80px;
 	border: none;
-	background-color: #1c1b1b;
-	color: #fff;
+	background-color: var(--calc-background);
+	color: var(--calc-color);
 	text-align: right;
 	padding-right: 20px;
 	padding-left: 10px;
@@ -47,60 +148,61 @@ button {
 	/* height: 61px; */
 	padding: 10px 0;
 	border-radius: 30px;
-	background-color: #36363696;
+	background-color: var(--button-background);
 	font-size: 30px;
-	color: #fff;
+	color: var(--calc-color);
 	border: none;
 	transition: all 0.2s ease-out;
-	box-shadow:  2px 2px 4px #262626,
-							-1px -1px 4px #464646;
+	box-shadow:  2px 2px 4px var(--button-shadow-outset),
+							-1px -1px 4px var(--button-shadow-inset);
 }
 
 button:hover {
-	background: linear-gradient(145deg, #313131, #3a3a3a);
-	box-shadow:  1px 1px 4px #262626,
-						-1px -1px 2px #464646;
+	background: linear-gradient(145deg, var(--hover-gradient-start), var(--hover-gradient-end));
+	box-shadow:  1px 1px 4px var(--button-shadow-outset),
+						-1px -1px 2px var(--button-shadow-inset);
 }
 
 button:active {
-	background-color: #363636e8;
-	box-shadow: inset 5px 5px 10px #262626,
-						inset -5px -5px 10px #464646;
+	background-color: var(--button-active);
+	box-shadow: inset 5px 5px 10px var(--button-shadow-outset),
+						inset -5px -5px 10px var(--button-shadow-inset);
 }
 
 button:focus-visible {
-	outline: 2px solid #adadad;
+	outline: 2px solid var(--button-outline);
+
 }
 
 button.operator {
-	background-color: #ffa000;
-	box-shadow:  2px 2px 2px #b57200,
-							-1px -1px 2px #ffce00;
+	background-color: var(--operator-background);
+	box-shadow:  2px 2px 2px var(--operator-shadow-outset),
+							-1px -1px 2px var(--operator-shadow-inset);
 }
 
 button.operator:hover {
-	background: #f7a824 !important;
-	box-shadow:  1px 1px 4px #b57200,
-							-1px -1px 2px #ffce00 !important;
+	background: var(--operator-hover) !important;
+	box-shadow:  1px 1px 4px var(--operator-shadow-outset),
+							-1px -1px 2px var(--operator-shadow-inset) !important;
 }
 
 button.operator:active {
-	background-color: #f7a824 !important;
-	box-shadow: inset 5px 5px 10px #b57200,
-							inset -5px -5px 10px #ffce00 !important;
+	background-color: var(--operator-hover) !important;
+	box-shadow: inset 5px 5px 10px var(--operator-shadow-outset),
+							inset -5px -5px 10px var(--operator-shadow-inset) !important;
 }
 
-.operator-sc {
-	background: #5c5858e8;
+.operator-ext {
+	background: var(--operator-ext-background);
 	font-size: 25px;
 }
 
-.operator-sc:hover {
-	background: #6c6969e8;
+.operator-ext:hover {
+	background: var(--operator-ext-hover);
 }
 
-.operator-sс:active {
-	background: #413f3fe8;
+.operator-ext:active {
+	background: var(--operator-ext-active);
 }
 
 .calc-keys {
@@ -108,9 +210,8 @@ button.operator:active {
 	grid-template-columns: repeat(6, 1fr);
 	grid-gap: 20px;
 	padding: 30px;
-	border-radius: 50px;
-	background-color: #34303033;
-
+	border-radius: 50px 50px 32px 32px;
+	background-color: var(--keys-background);
 }
 
 .zero {
@@ -129,7 +230,7 @@ sup {
 }
 
 .active {
-	border: 2px solid #adadad;
+	border: 2px solid var(--button-outline);
 }
 
 @media screen and (max-width: 991.98px) {

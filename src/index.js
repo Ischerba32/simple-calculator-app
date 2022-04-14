@@ -10,6 +10,8 @@ const screen = document.querySelector('.calc-screen .initial');
 const memoryValue = document.querySelector('.memory-value span');
 const memoryBtns = document.querySelectorAll('.memory');
 
+const toggle = document.getElementById('toggle');
+
 const invoker = new Invoker();
 
 digits.forEach((digit) => {
@@ -104,4 +106,14 @@ memoryBtns.forEach((memoryBtn) => {
 			memoryValue.textContent = invoker.handleMemory(memoryBtn.value);
 		}
 	});
+});
+
+toggle.addEventListener('input', (e) => {
+	const isChecked = e.target.checked;
+
+	if (isChecked) {
+		document.documentElement.dataset.theme = 'light';
+	} else {
+		document.documentElement.dataset.theme = 'dark';
+	}
 });
