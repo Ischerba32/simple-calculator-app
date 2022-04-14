@@ -1,5 +1,5 @@
 /* eslint-disable no-empty */
-import Receiver from './receiver/receiver';
+import Invoker from './invoker/invoker';
 import './styles/styles.css';
 
 const digits = document.querySelectorAll('.digit, .decimal');
@@ -10,43 +10,43 @@ const screen = document.querySelector('.calc-screen .initial');
 const memoryValue = document.querySelector('.memory-value span');
 const memoryBtns = document.querySelectorAll('.memory');
 
-const receiver = new Receiver();
+const invoker = new Invoker();
 
 digits.forEach((digit) => {
 	digit.addEventListener('click', () => {
-		if (!receiver.operator && !receiver.rightOperand && !receiver.finish) {
+		if (!invoker.operator && !invoker.rightOperand && !invoker.finish) {
 			// handle 0 before "."
-			if (digit.value === '0' && !receiver.leftOperand.includes('.') && receiver.leftOperand === '0') {
-				receiver.leftOperand = digit.value;
-				screen.value = receiver.leftOperand;
-			} else if (digit.value === '.' && receiver.leftOperand.includes('.')) {
+			if (digit.value === '0' && !invoker.leftOperand.includes('.') && invoker.leftOperand === '0') {
+				invoker.leftOperand = digit.value;
+				screen.value = invoker.leftOperand;
+			} else if (digit.value === '.' && invoker.leftOperand.includes('.')) {
 
 			} else {
 				// handle left operator
-				if (!receiver.leftOperand && digit.value === '.') {
-					receiver.handleLeftOperand(0);
+				if (!invoker.leftOperand && digit.value === '.') {
+					invoker.handleLeftOperand(0);
 				}
-				receiver.handleLeftOperand(digit.value);
-				screen.value = receiver.leftOperand;
+				invoker.handleLeftOperand(digit.value);
+				screen.value = invoker.leftOperand;
 			}
 			// handle left operator after equal
-		} else if (receiver.finish) {
-			receiver.clearUI();
-			receiver.handleLeftOperand(digit.value);
-			screen.value = receiver.leftOperand;
-		} else if (receiver.operator && !receiver.finish) {
-			if (digit.value === '0' && !receiver.rightOperand.includes('.') && receiver.rightOperand === '0') {
-				receiver.rightOperand = digit.value;
-				screen.value = receiver.rightOperand;
-			} else if (digit.value === '.' && receiver.rightOperand.includes('.')) {
+		} else if (invoker.finish) {
+			invoker.clearUI();
+			invoker.handleLeftOperand(digit.value);
+			screen.value = invoker.leftOperand;
+		} else if (invoker.operator && !invoker.finish) {
+			if (digit.value === '0' && !invoker.rightOperand.includes('.') && invoker.rightOperand === '0') {
+				invoker.rightOperand = digit.value;
+				screen.value = invoker.rightOperand;
+			} else if (digit.value === '.' && invoker.rightOperand.includes('.')) {
 
 			} else {
 				// handle right operator
-				if (!receiver.rightOperand && digit.value === '.') {
-					receiver.handleRightOperand(0);
+				if (!invoker.rightOperand && digit.value === '.') {
+					invoker.handleRightOperand(0);
 				}
-				receiver.handleRightOperand(digit.value);
-				screen.value = receiver.rightOperand;
+				invoker.handleRightOperand(digit.value);
+				screen.value = invoker.rightOperand;
 			}
 		}
 	});
@@ -56,39 +56,39 @@ operations.forEach((operation) => {
 	operation.addEventListener('click', () => {
 		// clicked basic or extended operation ?
 		if (operation.classList.contains('extend-operator')) {
-			receiver.operator = operation.value;
-			screen.value = receiver.execute();
+			invoker.operator = operation.value;
+			screen.value = invoker.execute();
 		} else { // clicked basic operation
 			// clicked after equal?
-			if (receiver.finish) {
-				receiver.finish = false;
-				receiver.rightOperand = '';
+			if (invoker.finish) {
+				invoker.finish = false;
+				invoker.rightOperand = '';
 			}
 			// clicked AC operation?
 			if (operation.value === 'AC') {
-				screen.value = receiver.clearCalculator();
+				screen.value = invoker.clearCalculator();
 				// console.log(calculator);
 			} else { // clicked basic operation
 				// clicked operator when left operator right was entered
-				if (receiver.leftOperand && receiver.operator && receiver.rightOperand) {
-					screen.value = receiver.execute();
-					receiver.operator = operation.value;
-					receiver.finish = false;
-					receiver.rightOperand = '';
+				if (invoker.leftOperand && invoker.operator && invoker.rightOperand) {
+					screen.value = invoker.execute();
+					invoker.operator = operation.value;
+					invoker.finish = false;
+					invoker.rightOperand = '';
 				}
-				receiver.operator = operation.value;
+				invoker.operator = operation.value;
 			}
 		}
 	});
 });
 
 equal.addEventListener('click', () => {
-	if (!receiver.operator && !receiver.rightOperand) {
-		screen.value = receiver.leftOperand || screen.value;
-		receiver.finish = true;
+	if (!invoker.operator && !invoker.rightOperand) {
+		screen.value = invoker.leftOperand || screen.value;
+		invoker.finish = true;
 	} else {
-		if (!receiver.rightOperand) receiver.rightOperand = receiver.leftOperand;
-		screen.value = receiver.execute();
+		if (!invoker.rightOperand) invoker.rightOperand = invoker.leftOperand;
+		screen.value = invoker.execute();
 	}
 });
 
@@ -96,12 +96,12 @@ memoryBtns.forEach((memoryBtn) => {
 	memoryBtn.addEventListener('click', () => {
 		const valueToMemory = screen.value;
 		if (memoryBtn.value === 'M+' || memoryBtn.value === 'M-') {
-			memoryValue.textContent = receiver.handleMemory(memoryBtn.value, valueToMemory);
+			memoryValue.textContent = invoker.handleMemory(memoryBtn.value, valueToMemory);
 		} else if (memoryBtn.value === 'MR') {
 			// check in which operator return memory value
-			screen.value = receiver.handleMemoryRead(memoryBtn.value);
+			screen.value = invoker.handleMemoryRead(memoryBtn.value);
 		} else {
-			memoryValue.textContent = receiver.handleMemory(memoryBtn.value);
+			memoryValue.textContent = invoker.handleMemory(memoryBtn.value);
 		}
 	});
 });

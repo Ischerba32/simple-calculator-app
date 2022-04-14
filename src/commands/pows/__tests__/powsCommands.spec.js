@@ -1,32 +1,32 @@
 /* eslint-disable no-undef */
-import Receiver from '../../../receiver/receiver';
+import Invoker from '../../../invoker/invoker';
 
-const receiver = new Receiver();
+const invoker = new Invoker();
 const left = '3';
 const right = '6';
 
 describe('pows calculator commands', () => {
 	beforeEach(() => {
-		receiver.handleLeftOperand(left);
-		receiver.handleRightOperand(right);
+		invoker.handleLeftOperand(left);
+		invoker.handleRightOperand(right);
 	});
 	afterEach(() => {
-		receiver.clearCalculator();
+		invoker.clearCalculator();
 	});
 	it('square pow command', () => {
-		receiver.operator = 'x^2';
-		expect(receiver.execute()).toBe(`${(+left) ** 2}`);
+		invoker.operator = 'x^2';
+		expect(invoker.execute()).toBe(`${(+left) ** 2}`);
 	});
 	it('cube pow command', () => {
-		receiver.operator = 'x^3';
-		expect(receiver.execute()).toBe(`${(+left) ** 3}`);
+		invoker.operator = 'x^3';
+		expect(invoker.execute()).toBe(`${(+left) ** 3}`);
 	});
 	it('ten pow x command', () => {
-		receiver.operator = '10^x';
-		expect(receiver.execute()).toBe(`${10 ** (+left)}`);
+		invoker.operator = '10^x';
+		expect(invoker.execute()).toBe(`${10 ** (+left)}`);
 	});
 	it('x pow y command', () => {
-		receiver.operator = 'x^y';
-		expect(receiver.execute()).toBe(`${(+left) ** (+right)}`);
+		invoker.operator = 'x^y';
+		expect(invoker.execute()).toBe(`${(+left) ** (+right)}`);
 	});
 });

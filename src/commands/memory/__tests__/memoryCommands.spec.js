@@ -1,42 +1,42 @@
 /* eslint-disable no-undef */
-import Receiver from '../../../receiver/receiver';
+import Invoker from '../../../invoker/invoker';
 
-const receiver = new Receiver();
+const invoker = new Invoker();
 const value = '16';
 
 describe('memory commands', () => {
 	beforeEach(() => {
-		receiver.handleLeftOperand(value);
+		invoker.handleLeftOperand(value);
 	});
 	afterEach(() => {
-		receiver.calculator.memory = 0;
+		invoker.calculator.memory = 0;
 	});
 	it('m+ memory command', () => {
 		const memoryOperation = 'M+';
-		expect(receiver.handleMemory(memoryOperation, value)).toBe(+value);
+		expect(invoker.handleMemory(memoryOperation, value)).toBe(+value);
 	});
 	it('execute m+ memory command at second time', () => {
 		const memoryOperation = 'M+';
-		receiver.handleMemory(memoryOperation, value);
-		expect(receiver.handleMemory(memoryOperation, value)).toBe(+value + +value);
+		invoker.handleMemory(memoryOperation, value);
+		expect(invoker.handleMemory(memoryOperation, value)).toBe(+value + +value);
 	});
 	it('m- memory command', () => {
 		const memoryOperation = 'M-';
-		expect(receiver.handleMemory(memoryOperation, value)).toBe(-(+value));
+		expect(invoker.handleMemory(memoryOperation, value)).toBe(-(+value));
 	});
 	it('execute m- memory command at second time', () => {
 		const memoryOperation = 'M-';
-		receiver.handleMemory(memoryOperation, value);
-		expect(receiver.handleMemory(memoryOperation, value)).toBe(-(+value) - (+value));
+		invoker.handleMemory(memoryOperation, value);
+		expect(invoker.handleMemory(memoryOperation, value)).toBe(-(+value) - (+value));
 	});
 	it('memory read command if memory is empty', () => {
-		receiver.clearCalculator();
+		invoker.clearCalculator();
 		const memoryOperation = 'MR';
-		expect(receiver.handleMemoryRead(memoryOperation)).toBe('0');
+		expect(invoker.handleMemoryRead(memoryOperation)).toBe('0');
 	});
 	it('memory read command if memory is not empty', () => {
-		receiver.clearCalculator();
+		invoker.clearCalculator();
 		const memoryOperation = 'MR';
-		expect(receiver.handleMemoryRead(memoryOperation)).toBe(receiver.calculator.memory.toString());
+		expect(invoker.handleMemoryRead(memoryOperation)).toBe(invoker.calculator.memory.toString());
 	});
 });

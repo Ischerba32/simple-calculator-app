@@ -1,7 +1,7 @@
 import Calculator from '../calculator';
 import CommandsFactory from '../factory/commandsFactory';
 
-class Receiver {
+class Invoker {
 	#leftOperand = '';
 
 	#operator = '';
@@ -119,4 +119,4 @@ class Receiver {
 	}
 }
 
-export default Receiver;
+export default Invoker;

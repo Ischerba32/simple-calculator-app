@@ -19,7 +19,7 @@ Complete bundle will store in "dist" folder
 
 ### Directory structure:
     Root folder:
-        .husky
+        .husky -- implemented git lifecycle hooks
             - pre-commit
             - pre-push
         dist -- build directory
@@ -69,8 +69,8 @@ Complete bundle will store in "dist" folder
                 - commandsFactory.js
             helpers -- helpers folder
                 - commandsList.js
-            receiver -- receiver class folder
-                - receiver.js
+            invoker -- invoker class folder
+                - invoker.js
             styles -- styles folder
                 - styles.css
             - index.html

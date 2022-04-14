@@ -1,38 +1,38 @@
 /* eslint-disable no-undef */
-import Receiver from '../../../receiver/receiver';
+import Invoker from '../../../invoker/invoker';
 
-const receiver = new Receiver();
+const invoker = new Invoker();
 const left = '5';
 const right = '10';
 
 describe('basic calculator commands', () => {
 	beforeEach(() => {
-		receiver.handleLeftOperand(left);
-		receiver.handleRightOperand(right);
+		invoker.handleLeftOperand(left);
+		invoker.handleRightOperand(right);
 	});
 	afterEach(() => {
-		receiver.clearCalculator();
+		invoker.clearCalculator();
 	});
 	it('check add command', () => {
-		receiver.operator = '+';
-		expect(receiver.execute()).toBe(`${+left + +right}`);
+		invoker.operator = '+';
+		expect(invoker.execute()).toBe(`${+left + +right}`);
 	});
 	it('check sub command', () => {
-		receiver.operator = '-';
-		expect(receiver.execute()).toBe(`${+left - +right}`);
+		invoker.operator = '-';
+		expect(invoker.execute()).toBe(`${+left - +right}`);
 	});
 	it('check multiply command', () => {
-		receiver.operator = '*';
-		expect(receiver.execute()).toBe(`${+left * +right}`);
+		invoker.operator = '*';
+		expect(invoker.execute()).toBe(`${+left * +right}`);
 	});
 	it('check divide command', () => {
-		receiver.operator = '/';
-		expect(receiver.execute()).toBe(`${+left / (+right)}`);
+		invoker.operator = '/';
+		expect(invoker.execute()).toBe(`${+left / (+right)}`);
 	});
 	it('check divide by 0', () => {
-		receiver.operator = '/';
-		receiver.rightOperand = '0';
+		invoker.operator = '/';
+		invoker.rightOperand = '0';
 
-		expect(receiver.execute()).toBeInstanceOf(Error);
+		expect(invoker.execute()).toBeInstanceOf(Error);
 	});
 });

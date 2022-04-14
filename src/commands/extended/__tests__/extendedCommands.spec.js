@@ -1,42 +1,42 @@
 /* eslint-disable no-undef */
-import Receiver from '../../../receiver/receiver';
+import Invoker from '../../../invoker/invoker';
 
-const receiver = new Receiver();
+const invoker = new Invoker();
 const left = '5';
 
 describe('Extended calculator commands', () => {
 	beforeEach(() => {
-		receiver.handleLeftOperand(left);
+		invoker.handleLeftOperand(left);
 	});
 	afterEach(() => {
-		receiver.clearCalculator();
+		invoker.clearCalculator();
 	});
 	it('factorial command', () => {
-		receiver.operator = 'x!';
-		expect(receiver.execute()).toBe('120');
+		invoker.operator = 'x!';
+		expect(invoker.execute()).toBe('120');
 	});
 	it('invert sign command (to negative)', () => {
-		receiver.operator = '+-';
-		expect(receiver.execute()).toBe(`-${left}`);
+		invoker.operator = '+-';
+		expect(invoker.execute()).toBe(`-${left}`);
 	});
 	it('invert sign command (to positive)', () => {
-		receiver.operator = '+-';
-		receiver.leftOperand = `-${left}`;
-		receiver.calculator.setValue(+receiver.leftOperand);
-		expect(receiver.execute()).toBe(left);
+		invoker.operator = '+-';
+		invoker.leftOperand = `-${left}`;
+		invoker.calculator.setValue(+invoker.leftOperand);
+		expect(invoker.execute()).toBe(left);
 	});
 	it('1/x command', () => {
-		receiver.operator = '1/x';
-		expect(receiver.execute()).toBe(`${1 / (+left)}`);
+		invoker.operator = '1/x';
+		expect(invoker.execute()).toBe(`${1 / (+left)}`);
 	});
 	it('1/x command (divide by 0)', () => {
-		receiver.operator = '1/x';
-		receiver.leftOperand = '0';
-		receiver.calculator.setValue(+receiver.leftOperand);
-		expect(receiver.execute()).toBeInstanceOf(Error);
+		invoker.operator = '1/x';
+		invoker.leftOperand = '0';
+		invoker.calculator.setValue(+invoker.leftOperand);
+		expect(invoker.execute()).toBeInstanceOf(Error);
 	});
 	it('% command', () => {
-		receiver.operator = '%';
-		expect(receiver.execute()).toBe(`${+left / 100}`);
+		invoker.operator = '%';
+		expect(invoker.execute()).toBe(`${+left / 100}`);
 	});
 });
