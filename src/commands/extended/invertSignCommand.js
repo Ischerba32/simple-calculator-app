@@ -5,6 +5,10 @@ class InvertSignCommand extends Command {
 	execute(currentValue) {
 		return -currentValue;
 	}
+
+	undo(currentValue) {
+		return -currentValue;
+	}
 }
 
 export default InvertSignCommand;

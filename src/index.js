@@ -59,7 +59,7 @@ operations.forEach((operation) => {
 		// clicked basic or extended operation ?
 		if (operation.classList.contains('extend-operator')) {
 			invoker.operator = operation.value;
-			screen.value = invoker.execute();
+			screen.value = invoker.execute(true);
 		} else { // clicked basic operation
 			// clicked after equal?
 			if (invoker.finish) {

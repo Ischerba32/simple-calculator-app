@@ -5,6 +5,10 @@ class TenPowCommand extends Command {
 	execute(currentValue) {
 		return 10 ** currentValue;
 	}
+
+	undo() {
+		return this.value;
+	}
 }
 
 export default TenPowCommand;

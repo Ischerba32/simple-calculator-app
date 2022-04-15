@@ -5,6 +5,10 @@ class PercentCommand extends Command {
 	execute(currentValue) {
 		return currentValue / 100;
 	}
+
+	undo(currentValue) {
+		return currentValue * 100;
+	}
 }
 
 export default PercentCommand;

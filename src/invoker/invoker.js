@@ -103,8 +103,9 @@ class Invoker {
 		}
 	}
 
-	execute() {
-		const command = this.factory.create(this.operator, +this.rightOperand);
+	execute(isExtCommand = false) {
+		const command = isExtCommand ? this.factory.create(this.operator, +this.leftOperand) : this.factory.create(this.operator, +this.rightOperand);
+		console.log(command);
 		try {
 			this.calculator.executeCommand(command);
 
@@ -114,7 +115,7 @@ class Invoker {
 			return this.leftOperand;
 		} catch (error) {
 			this.clearCalculator();
-			return error;
+			return error.message;
 		}
 	}
 }

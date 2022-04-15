@@ -5,6 +5,10 @@ class SqrCommand extends Command {
 	execute(currentValue) {
 		return currentValue ** 2;
 	}
+
+	undo(currentValue) {
+		return currentValue ** 0.5;
+	}
 }
 
 export default SqrCommand;

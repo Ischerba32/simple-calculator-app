@@ -15,11 +15,11 @@ describe('roots calculator commands', () => {
 	});
 	it('square root command', () => {
 		invoker.operator = 'sqrt(x)';
-		expect(invoker.execute()).toBe(`${(+left) ** 0.5}`);
+		expect(invoker.execute(true)).toBe(`${(+left) ** 0.5}`);
 	});
 	it('cube root command', () => {
 		invoker.operator = 'cbrt(x)';
-		expect(invoker.execute()).toBe(`${(+left) ** (1 / 3)}`);
+		expect(invoker.execute(true)).toBe(`${(+left) ** (1 / 3)}`);
 	});
 	it('y root command', () => {
 		invoker.operator = 'yRoot(x)';

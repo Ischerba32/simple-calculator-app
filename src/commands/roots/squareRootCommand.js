@@ -6,6 +6,10 @@ class SquareRootCommand extends Command {
 		if (currentValue < 0) throw new Error('Square root should have positive operand');
 		return currentValue ** 0.5;
 	}
+
+	undo(currentValue) {
+		return currentValue ** 2;
+	}
 }
 
 export default SquareRootCommand;

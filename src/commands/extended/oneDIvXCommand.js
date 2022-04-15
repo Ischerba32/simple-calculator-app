@@ -6,6 +6,10 @@ class OneDivXCommand extends Command {
 		if (currentValue === 0) throw new Error('divide by 0 error');
 		return currentValue ** (-1);
 	}
+
+	undo(currentValue) {
+		return currentValue ** (-1);
+	}
 }
 
 export default OneDivXCommand;

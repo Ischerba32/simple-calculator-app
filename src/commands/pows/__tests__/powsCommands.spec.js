@@ -15,15 +15,15 @@ describe('pows calculator commands', () => {
 	});
 	it('square pow command', () => {
 		invoker.operator = 'x^2';
-		expect(invoker.execute()).toBe(`${(+left) ** 2}`);
+		expect(invoker.execute(true)).toBe(`${(+left) ** 2}`);
 	});
 	it('cube pow command', () => {
 		invoker.operator = 'x^3';
-		expect(invoker.execute()).toBe(`${(+left) ** 3}`);
+		expect(invoker.execute(true)).toBe(`${(+left) ** 3}`);
 	});
 	it('ten pow x command', () => {
 		invoker.operator = '10^x';
-		expect(invoker.execute()).toBe(`${10 ** (+left)}`);
+		expect(invoker.execute(true)).toBe(`${10 ** (+left)}`);
 	});
 	it('x pow y command', () => {
 		invoker.operator = 'x^y';
