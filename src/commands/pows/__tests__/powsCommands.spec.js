@@ -14,11 +14,11 @@ describe('pows calculator commands', () => {
 		invoker.clearCalculator();
 	});
 	it('square pow command', () => {
-		invoker.operator = 'x^2';
+		invoker.operator = '^2';
 		expect(invoker.execute(true)).toBe(`${(+left) ** 2}`);
 	});
 	it('cube pow command', () => {
-		invoker.operator = 'x^3';
+		invoker.operator = '^3';
 		expect(invoker.execute(true)).toBe(`${(+left) ** 3}`);
 	});
 	it('ten pow x command', () => {
@@ -26,7 +26,7 @@ describe('pows calculator commands', () => {
 		expect(invoker.execute(true)).toBe(`${10 ** (+left)}`);
 	});
 	it('x pow y command', () => {
-		invoker.operator = 'x^y';
+		invoker.operator = '^y';
 		expect(invoker.execute()).toBe(`${(+left) ** (+right)}`);
 	});
 });

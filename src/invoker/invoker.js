@@ -10,6 +10,8 @@ class Invoker {
 
 	#finish = false;
 
+	#historyObject = {};
+
 	#factory = new CommandsFactory();
 
 	#calculator = new Calculator();
@@ -46,6 +48,14 @@ class Invoker {
 		this.#finish = value;
 	}
 
+	get historyObject() {
+		return this.#historyObject;
+	}
+
+	set historyObject(value) {
+		this.#historyObject = value;
+	}
+
 	get factory() {
 		return this.#factory;
 	}
@@ -67,8 +77,9 @@ class Invoker {
 
 	clearCalculator() {
 		this.clearUI();
-		this.calculator.setValue(0);
-		return this.calculator.getValue();
+		this.calculator.clearHistory();
+		this.calculator.value = 0;
+		return this.calculator.value;
 	}
 
 	handleLeftOperand(value) {
@@ -77,7 +88,7 @@ class Invoker {
 		} else {
 			this.leftOperand += value;
 		}
-		this.calculator.setValue(+this.leftOperand);
+		this.calculator.value = +this.leftOperand;
 	}
 
 	handleRightOperand(value) {
@@ -105,18 +116,25 @@ class Invoker {
 
 	execute(isExtCommand = false) {
 		const command = isExtCommand ? this.factory.create(this.operator, +this.leftOperand) : this.factory.create(this.operator, +this.rightOperand);
-		console.log(command);
+		this.#historyObject = {};
 		try {
 			this.calculator.executeCommand(command);
-
-			// console.log(`${this.leftOperand} ${this.operator} ${this.rightOperand} = ${this.calculator.getValue()}`);
+			this.historyObject.operation = `${this.leftOperand} ${this.operator} ${this.rightOperand}`;
+			this.historyObject.equal = this.calculator.value;
 			this.finish = true;
-			this.leftOperand = this.calculator.getValue().toString();
+			this.leftOperand = this.calculator.value.toString();
 			return this.leftOperand;
 		} catch (error) {
-			this.clearCalculator();
-			return error.message;
+			this.clearUI();
+			this.historyObject.error = error.message;
+			return this.historyObject.error;
 		}
+	}
+
+	undo() {
+		this.calculator.undo();
+		this.clearUI();
+		this.leftOperand = this.calculator.value.toString();
 	}
 }
 

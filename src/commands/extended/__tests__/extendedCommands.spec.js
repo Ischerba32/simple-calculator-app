@@ -12,7 +12,7 @@ describe('Extended calculator commands', () => {
 		invoker.clearCalculator();
 	});
 	it('factorial command', () => {
-		invoker.operator = 'x!';
+		invoker.operator = '!';
 		expect(invoker.execute(true)).toBe('120');
 	});
 	it('invert sign command (to negative)', () => {
@@ -22,7 +22,7 @@ describe('Extended calculator commands', () => {
 	it('invert sign command (to positive)', () => {
 		invoker.operator = '+-';
 		invoker.leftOperand = `-${left}`;
-		invoker.calculator.setValue(+invoker.leftOperand);
+		invoker.calculator.value = +invoker.leftOperand;
 		expect(invoker.execute(true)).toBe(left);
 	});
 	it('1/x command', () => {
@@ -32,8 +32,8 @@ describe('Extended calculator commands', () => {
 	it('1/x command (divide by 0)', () => {
 		invoker.operator = '1/x';
 		invoker.leftOperand = '0';
-		invoker.calculator.setValue(+invoker.leftOperand);
-		expect(invoker.execute(true)).toBeInstanceOf(Error);
+		invoker.calculator.value = +invoker.leftOperand;
+		expect(invoker.execute(true)).toBe('divide by 0 error');
 	});
 	it('% command', () => {
 		invoker.operator = '%';

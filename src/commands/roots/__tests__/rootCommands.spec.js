@@ -14,11 +14,11 @@ describe('roots calculator commands', () => {
 		invoker.clearCalculator();
 	});
 	it('square root command', () => {
-		invoker.operator = 'sqrt(x)';
+		invoker.operator = '^(1/2)';
 		expect(invoker.execute(true)).toBe(`${(+left) ** 0.5}`);
 	});
 	it('cube root command', () => {
-		invoker.operator = 'cbrt(x)';
+		invoker.operator = '^(1/3)';
 		expect(invoker.execute(true)).toBe(`${(+left) ** (1 / 3)}`);
 	});
 	it('y root command', () => {

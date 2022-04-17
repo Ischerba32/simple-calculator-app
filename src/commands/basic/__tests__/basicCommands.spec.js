@@ -33,6 +33,6 @@ describe('basic calculator commands', () => {
 		invoker.operator = '/';
 		invoker.rightOperand = '0';
 
-		expect(invoker.execute()).toBeInstanceOf(Error);
+		expect(invoker.execute()).toBe('divide by 0 error');
 	});
 });

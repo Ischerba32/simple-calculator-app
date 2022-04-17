@@ -2,19 +2,36 @@
 import Invoker from './invoker/invoker';
 import './styles/styles.css';
 
-const digits = document.querySelectorAll('.digit, .decimal');
-const operations = document.querySelectorAll('.calc-keys button:not(.digit, .equal-sign, .decimal, .memory)');
-const equal = document.querySelector('.equal-sign');
+const digitsButtons = document.querySelectorAll('.digit, .decimal');
+const operationsButtons = document.querySelectorAll('.calc-keys button:not(.digit, .equal-sign, .decimal, .memory)');
+const equalButton = document.querySelector('.equal-sign');
 const screen = document.querySelector('.calc-screen .initial');
 
+const operatorValue = document.querySelector('.operator-value');
 const memoryValue = document.querySelector('.memory-value span');
-const memoryBtns = document.querySelectorAll('.memory');
+const memoryButtons = document.querySelectorAll('.memory');
 
 const toggle = document.getElementById('toggle');
 
+const showHistoryButton = document.querySelector('.show-history');
+const historyContainer = document.querySelector('.history-container');
+const historyItems = document.getElementsByClassName('history-item');
+const historyUndoButton = document.querySelector('.history-undo');
+
 const invoker = new Invoker();
 
-digits.forEach((digit) => {
+// functions
+const pushResultToHistory = ({ operation, equal }) => {
+	historyContainer.insertAdjacentHTML('afterbegin', `
+		<div class="history-item">
+			<p class="history-item-operation">${operation}</p>
+			<p class="history-item-value">= ${equal}</p>
+		</div>
+	`);
+};
+
+// handlers
+digitsButtons.forEach((digit) => {
 	digit.addEventListener('click', () => {
 		if (!invoker.operator && !invoker.rightOperand && !invoker.finish) {
 			// handle 0 before "."
@@ -54,12 +71,16 @@ digits.forEach((digit) => {
 	});
 });
 
-operations.forEach((operation) => {
+operationsButtons.forEach((operation) => {
 	operation.addEventListener('click', () => {
 		// clicked basic or extended operation ?
 		if (operation.classList.contains('extend-operator')) {
 			invoker.operator = operation.value;
-			screen.value = invoker.execute(true);
+			invoker.execute(true);
+			if (!invoker.historyObject.error) {
+				pushResultToHistory(invoker.historyObject);
+				screen.value = invoker.leftOperand;
+			} else screen.value = invoker.historyObject.error;
 		} else { // clicked basic operation
 			// clicked after equal?
 			if (invoker.finish) {
@@ -69,32 +90,46 @@ operations.forEach((operation) => {
 			// clicked AC operation?
 			if (operation.value === 'AC') {
 				screen.value = invoker.clearCalculator();
-				// console.log(calculator);
+				historyContainer.textContent = '';
+				operatorValue.textContent = '';
 			} else { // clicked basic operation
 				// clicked operator when left operator right was entered
 				if (invoker.leftOperand && invoker.operator && invoker.rightOperand) {
-					screen.value = invoker.execute();
+					invoker.execute();
+					if (!invoker.historyObject.error) {
+						screen.value = invoker.leftOperand;
+						pushResultToHistory(invoker.historyObject);
+					} else {
+						screen.value = invoker.historyObject.error;
+					}
 					invoker.operator = operation.value;
+					operatorValue.textContent = invoker.operator;
 					invoker.finish = false;
 					invoker.rightOperand = '';
 				}
 				invoker.operator = operation.value;
+				operatorValue.textContent = invoker.operator;
 			}
 		}
 	});
 });
 
-equal.addEventListener('click', () => {
+equalButton.addEventListener('click', () => {
 	if (!invoker.operator && !invoker.rightOperand) {
 		screen.value = invoker.leftOperand || screen.value;
 		invoker.finish = true;
 	} else {
 		if (!invoker.rightOperand) invoker.rightOperand = invoker.leftOperand;
-		screen.value = invoker.execute();
+		invoker.execute();
+		if (!invoker.historyObject.error) {
+			screen.value = invoker.leftOperand;
+			pushResultToHistory(invoker.historyObject);
+		} else screen.value = invoker.historyObject.error;
 	}
+	operatorValue.textContent = '';
 });
 
-memoryBtns.forEach((memoryBtn) => {
+memoryButtons.forEach((memoryBtn) => {
 	memoryBtn.addEventListener('click', () => {
 		const valueToMemory = screen.value;
 		if (memoryBtn.value === 'M+' || memoryBtn.value === 'M-') {
@@ -116,4 +151,19 @@ toggle.addEventListener('input', (e) => {
 	} else {
 		document.documentElement.dataset.theme = 'dark';
 	}
+});
+
+historyUndoButton.addEventListener('click', () => {
+	if (historyItems.length) {
+		invoker.undo();
+		screen.value = invoker.leftOperand;
+
+		// pop history container
+		historyContainer.removeChild(historyItems[0]);
+	}
+});
+
+showHistoryButton.addEventListener('click', () => {
+	const history = document.querySelector('.history');
+	history.classList.toggle('visible');
 });
