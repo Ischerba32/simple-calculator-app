@@ -17,7 +17,6 @@ module.exports = {
 		host: 'localhost',
 		open: true,
 		compress: true,
-		// hot: true,
 		port: 8080,
 	},
 	module: {
@@ -46,12 +45,6 @@ module.exports = {
 							sourceMap: true,
 						},
 					},
-					// {
-					//   loader: 'postcss-loader',
-					//   options: {
-					//     plugins: () => [precss, autoprefixer],
-					//   },
-					// },
 				],
 			},
 		],
@@ -68,4 +61,4 @@ module.exports = {
 		filename: '[name].bundle.js',
 	},
 	mode: 'development',
-}
+};
