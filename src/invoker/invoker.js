@@ -114,15 +114,21 @@ class Invoker {
 		}
 	}
 
-	execute(isExtCommand = false) {
-		const command = isExtCommand ? this.factory.create(this.operator, +this.leftOperand) : this.factory.create(this.operator, +this.rightOperand);
+	resultToCorrectFormat() {
+		return +((this.calculator.value).toFixed(4));
+	}
+
+	execute(isExtendedCommand = false) {
+		const command = isExtendedCommand
+			? this.factory.create(this.operator, +this.leftOperand)
+			: this.factory.create(this.operator, +this.rightOperand);
 		this.#historyObject = {};
 		try {
 			this.calculator.executeCommand(command);
 			this.historyObject.operation = `${this.leftOperand} ${this.operator} ${this.rightOperand}`;
-			this.historyObject.equal = this.calculator.value;
+			this.historyObject.equal = this.resultToCorrectFormat();
 			this.finish = true;
-			this.leftOperand = this.calculator.value.toString();
+			this.leftOperand = this.resultToCorrectFormat().toString();
 			return this.leftOperand;
 		} catch (error) {
 			this.clearUI();
@@ -134,7 +140,7 @@ class Invoker {
 	undo() {
 		this.calculator.undo();
 		this.clearUI();
-		this.leftOperand = this.calculator.value.toString();
+		this.leftOperand = this.resultToCorrectFormat().toString();
 	}
 }
 

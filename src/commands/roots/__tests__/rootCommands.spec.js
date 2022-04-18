@@ -19,7 +19,7 @@ describe('roots calculator commands', () => {
 	});
 	it('cube root command', () => {
 		invoker.operator = '^(1/3)';
-		expect(invoker.execute(true)).toBe(`${(+left) ** (1 / 3)}`);
+		expect(invoker.execute(true)).toBe(`${+((+left) ** (1 / 3)).toFixed(4)}`);
 	});
 	it('y root command', () => {
 		invoker.operator = 'yRoot(x)';
