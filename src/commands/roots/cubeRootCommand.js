@@ -3,7 +3,7 @@ import Command from '../Command';
 
 class CubeRootCommand extends Command {
 	execute(currentValue) {
-		if (currentValue < 0) throw new Error('Cube root should have positive operand');
+		if (currentValue < 0) throw new Error('Bad operand');
 		return currentValue ** (1 / 3);
 	}
 

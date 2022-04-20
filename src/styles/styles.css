@@ -371,6 +371,27 @@ button[value="1/x"] {
 	.calc, .history {
 		width: 100%;
 		margin: 0;
-    border-radius: 0;
+		border-radius: 0;
 	}
+
+	.calc {
+		margin-bottom: 10px;
+	}
+
+	.container {
+		padding: 0;
+	}
+
+	button, .history-item {
+		font-size: 20px;
+	}
+
+	.operator-ext {
+		font-size: 15px;
+	}
+
+	.calc-screen input[type=text] {
+		font-size: 40px;
+	}
+
 }
